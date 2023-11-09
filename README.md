@@ -14,26 +14,42 @@ These systems represent the backbone of banking operations, enabling individuals
 - JPA :tw-1f50c:
 - MySQL :tw-1f42c:
 
-## Steps to execute the project locally
-
-- set the environment variables for the database
-
-![](https://i.stack.imgur.com/sbbjc.png)
-
-## Functionalities does the project support
+## Functionalities that the project supports
 
 ### 1.  Accounts
-	  Account opening
-	 Account deposits
-	 Transfers between accounts
-	 Consult account
-	 Block account
+		1.1 Account opening
+		1.2 Account deposits
+		1.3 Transfers between accounts
+		1.4 Consult account
+		1.5 Block account
 
 
 ### 2. Pockets
-	 Pocket creation
-	 Transfers to pockets
-	 Pocket query
+		2.1 Pocket creation
+		2.2 Transfers to pockets
+		2.3 Pocket query
+
+## Steps to execute the project locally
+
+### how to clone and execute the project
+
+- Copy the url o the repository
+
+![](https://blogs.sap.com/wp-content/uploads/2019/07/2019-07-12_11-18-03.jpg)
+
+- Run this command in Git ➡ git clone (url the repository)
+
+![](https://media.geeksforgeeks.org/wp-content/uploads/20190429235125/git-clone.png)
+
+- Set the environment variables for the database
+
+![](https://i.stack.imgur.com/sbbjc.png)
+
+- Create a database in MySQL with the same name as 
+  "application.properties" and set your password to 
+  "spring.datasource.password" or the same name as environment variables 
+
+![](https://gustavopeiretti.com/properties-file-spring-boot/spring-boot-property-file-example.png)
 
 ## Information for developers
 
