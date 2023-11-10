@@ -7,6 +7,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 - Se incluye y actualiza el changelog
-  - PR: [#2](https://github.com/lopez-org/bank/pulls/2) | Authors: [](https://github.com/mariafmaceab)
+  - PR: [#2](https://github.com/lopez-org/bank/pulls/2) | Authors: [mariafmaceab](https://github.com/mariafmaceab)
 - Se configura la base de datos
-  - PR: [#1](https://github.com/lopez-org/bank/pulls/1) | Authors: [](https://github.com/DahierQuintero)
+  - PR: [#1](https://github.com/lopez-org/bank/pulls/1) | Authors: [DahierQuintero](https://github.com/DahierQuintero)
