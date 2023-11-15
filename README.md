@@ -1,6 +1,6 @@
-# Banking transaction system :tw-1f4b9:
+# Banking transaction system :moneybag
 
-## Description :fa-file-o:
+## Description :arrow_down_small
 
 ** What is it? **
 Transaction banking systems play a fundamental role in facilitating and streamlining the management of money movements between accounts and financial institutions.
@@ -8,7 +8,7 @@ Transaction banking systems play a fundamental role in facilitating and streamli
 ** What does it do? **
 These systems represent the backbone of banking operations, enabling individuals, businesses and institutions to conduct a variety of transactions in a secure, efficient and convenient manner.
 
-## Tools :tw-1f527:
+## Tools :wrench
 
 - Spring Boot :tw-1f343:
 - JPA :tw-1f50c:
@@ -29,7 +29,7 @@ These systems represent the backbone of banking operations, enabling individuals
 		2.2 Transfers to pockets
 		2.3 Pocket query
 
-## Steps to execute the project locally
+## Steps to execute the project locally :footprints
 
 ### how to clone and execute the project
 
@@ -51,7 +51,7 @@ These systems represent the backbone of banking operations, enabling individuals
 
 ![](https://gustavopeiretti.com/properties-file-spring-boot/spring-boot-property-file-example.png)
 
-## Information for developers
+## Information for developers :information_source
 
 - Uses layered architecture
 - Uses DTO design pattern
