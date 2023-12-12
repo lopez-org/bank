@@ -3,7 +3,11 @@ package com.mjd.bank.entities;
 import java.util.Locale;
 
 public enum AccountType {
-  SAVINGS, CURRENT, FIXED_DEPOSIT, RECURRING_DEPOSIT, UNKNOWN;
+  SAVINGS,
+  CURRENT,
+  FIXED_DEPOSIT,
+  RECURRING_DEPOSIT,
+  UNKNOWN;
 
   public static AccountType getAccountType(String accountType) {
     try {

@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+- Se agregan los repositorios para cada entidad
+  - PR: [#6] (https://github.com/lopez-org/bank/pull/6) | Authors: [Juan Lopez](https://github.com/JuanLopezMELI)
 - Se agregan las entidades de JPA con sus respectivas relaciones
   - PR: [#5](https://github.com/lopez-org/bank/pull/5) | Authors: [Juan Lopez](https://github.com/JuanLopezMELI)
 - Se modifica el readme y se crea el modelo de datos

@@ -1,6 +1,8 @@
 package com.mjd.bank.entities;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -26,6 +28,8 @@ public class Account {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   private Integer number;
+
+  @Enumerated(value = EnumType.STRING)
   private AccountType type;
   private BigDecimal balance;
 
