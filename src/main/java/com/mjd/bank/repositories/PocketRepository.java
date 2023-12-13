@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PocketRepository extends JpaRepository<Pocket, Long> {
-  List<Pocket> findAllByAccount_Id(Long accountId);
+  List<Pocket> findAllByAccount_Number(Long accountId);
   List<Pocket> findAllByAccount_Owner_Id(Long ownerId);
 }
