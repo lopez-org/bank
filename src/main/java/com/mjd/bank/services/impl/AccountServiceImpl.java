@@ -7,7 +7,6 @@ import com.mjd.bank.repositories.AccountRepository;
 import com.mjd.bank.services.AccountService;
 import com.mjd.bank.utils.TransactionsUtils;
 import java.math.BigDecimal;
-import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 @Service
