@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-- Se agrega la lógica para obtener el detalle de una cuenta
+- Se agrega la lógica para obtener el detalle de una cuenta y la lógica para transferir dinero de la cuenta a un bolsillo
   - PR: [#8] (https://github.com/lopez-org/bank/pull/8) | Authors: [Juan Lopez](https://github.com/JuanLopezMELI)
 - Se agrega la lógica para realizar depósitos en una cuenta
   - PR: [#7] (https://github.com/lopez-org/bank/pull/7) | Authors: [Juan Lopez](https://github.com/JuanLopezMELI)
