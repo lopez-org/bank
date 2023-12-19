@@ -4,7 +4,6 @@ import com.mjd.bank.dtos.request.DepositRequest;
 import com.mjd.bank.dtos.response.AccountDetailDTO;
 import com.mjd.bank.dtos.response.SimpleMessageResponse;
 import com.mjd.bank.services.AccountService;
-import java.math.BigDecimal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,7 +24,7 @@ public class AccountController {
 
   @PostMapping ("/deposit")
   public SimpleMessageResponse deposit(@RequestHeader(name = "owner_id") Long ownerId, @RequestBody DepositRequest depositRequest) {
-    return accountService.deposit(ownerId, depositRequest.getAccountNumber(), depositRequest.getAmount());
+    return accountService.deposit(ownerId, depositRequest);
   }
 
   @GetMapping("/{id}")
