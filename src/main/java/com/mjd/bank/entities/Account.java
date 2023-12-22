@@ -1,8 +1,10 @@
 package com.mjd.bank.entities;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -33,12 +35,31 @@ public class Account {
   private AccountType type;
   private BigDecimal balance;
 
-  @OneToMany(mappedBy = "account", orphanRemoval = true)
-  private List<Pocket> pockets = new ArrayList<>();
+  @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  private List<Pocket> pockets;
 
   @ManyToOne
   @JoinColumn(name = "owner_id")
   private AppUser owner;
+
+  public Account(Long number, AccountType type, BigDecimal balance, AppUser owner) {
+    this.number = number;
+    this.type = type;
+    this.balance = balance;
+    this.owner = owner;
+  }
+
+  public void addPocket(Pocket pocket) {
+    if (this.pockets == null) {
+      this.pockets = new ArrayList<>();
+    }
+    pocket.setAccount(this);
+    this.pockets.add(pocket);
+  }
+
+  public void addPockets(List<Pocket> pockets) {
+    pockets.forEach(this::addPocket);
+  }
 
   @PrePersist
   private void generateRandomNumbers() {
