@@ -58,12 +58,7 @@ public class Account {
   }
 
   public void addPockets(List<Pocket> pockets) {
-    pockets.forEach(
-        pocket -> {
-          this.addPocket(pocket);
-          pocket.setAccount(this);
-        }
-    );
+    pockets.forEach(this::addPocket);
   }
 
   @PrePersist

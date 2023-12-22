@@ -7,7 +7,6 @@ import com.mjd.bank.entities.AppUser;
 import com.mjd.bank.entities.Pocket;
 import com.mjd.bank.repositories.AccountRepository;
 import com.mjd.bank.repositories.AppUserRepository;
-import com.mjd.bank.repositories.PocketRepository;
 import com.mjd.bank.services.AccountService;
 import java.math.BigDecimal;
 import java.util.List;
@@ -58,11 +57,11 @@ public class AccountServiceTest {
         ownerId,
         "John Doe",
         "doe",
-        "",
-        "",
-        "",
+        "Taganga",
+        "Calle ficticia 1 # 2-3 apto 4",
+        "3214567890",
         "sndanskd@famsd.com",
-        ""
+        "miMami"
     );
 
     List<Pocket> pockets = List.of(
@@ -103,16 +102,4 @@ public class AccountServiceTest {
 
   }
 
-  //    AccountDetailDTO accountDetailDTO = new AccountDetailDTO(
-//        accountId,
-//        AccountType.SAVINGS,
-//        "John Doe",
-//        "sndanskd@famsd.com",
-//        new BigDecimal(1000),
-//        List.of(
-//            new PocketDetailDTO(1L, "Pocket 1", new BigDecimal(100)),
-//            new PocketDetailDTO(2L, "Pocket 2", new BigDecimal(200)),
-//            new PocketDetailDTO(3L, "Pocket 3", new BigDecimal(300))
-//        )
-//    );
 }
