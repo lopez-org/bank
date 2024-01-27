@@ -57,7 +57,7 @@ public class AccountServiceImpl implements AccountService {
         accountRepository.save(account);
         return new SimpleMessageResponse("Account created successfully");
       }else {
-        throw new IncorrectAccountTypeException("The account type " + type + " isn't exist");
+        throw new IncorrectAccountTypeException("The account type " + type + " doesn't exist");
       }
 
 
