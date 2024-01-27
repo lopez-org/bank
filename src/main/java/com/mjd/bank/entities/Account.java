@@ -21,7 +21,6 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Accessors(chain = true)
 @Entity(name = "account")
 public class Account {
@@ -39,6 +38,12 @@ public class Account {
   @ManyToOne
   @JoinColumn(name = "owner_id")
   private AppUser owner;
+
+  public Account(AccountType type, AppUser owner) {
+    this.type = type;
+    this.owner = owner;
+    balance = new BigDecimal(0);
+  }
 
   @PrePersist
   private void generateRandomNumbers() {
