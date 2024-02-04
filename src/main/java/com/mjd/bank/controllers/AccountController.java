@@ -24,5 +24,4 @@ public class AccountController {
   public SimpleMessageResponse deposit(@RequestHeader(name = "owner_id") Long ownerId, @RequestBody DepositRequest depositRequest) {
     return accountService.deposit(ownerId, depositRequest.getAccountNumber(), depositRequest.getAmount());
   }
-
 }
