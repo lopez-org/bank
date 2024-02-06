@@ -1,12 +1,16 @@
 package com.mjd.bank.controllers;
 
+import com.mjd.bank.dtos.request.CreateRequest;
 import com.mjd.bank.dtos.request.DepositRequest;
 import com.mjd.bank.dtos.response.SimpleMessageResponse;
 import com.mjd.bank.entities.AccountType;
 import com.mjd.bank.services.AccountService;
 import java.math.BigDecimal;
+import java.util.Locale;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -30,7 +34,7 @@ public class AccountController {
   }
 
   @PostMapping ("/create")
-  public SimpleMessageResponse create(@RequestHeader(name = "owner_id") Long ownerId, @RequestBody AccountType type){
-      return accountService.create(ownerId,type);
+  public SimpleMessageResponse create(@RequestHeader(name = "owner_id") Long ownerId, @RequestBody CreateRequest type) {
+    return accountService.create(ownerId, AccountType.getAccountType(type.getType().toUpperCase()));
   }
 }

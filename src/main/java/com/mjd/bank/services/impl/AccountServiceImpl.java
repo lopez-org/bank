@@ -52,14 +52,12 @@ public class AccountServiceImpl implements AccountService {
     AppUser owner = appUserRepository.findById(ownerId)
             .orElseThrow(() ->new NotFoundException("The user with ID " + ownerId + " doesn't exist"));
 
-      if (type.toString().equals(AccountType.CURRENT.toString()) || type.toString().equals(AccountType.FIXED_DEPOSIT.toString()) || type.toString().equals(AccountType.SAVINGS.toString()) || type.toString().equals(AccountType.RECURRING_DEPOSIT.toString())){
+      if (type!=AccountType.UNKNOWN){
         Account account = new Account(type,owner);
         accountRepository.save(account);
         return new SimpleMessageResponse("Account created successfully");
       }else {
-        throw new IncorrectAccountTypeException("The account type " + type + " doesn't exist");
+        throw new IncorrectAccountTypeException("The account type doesn't exist");
       }
-
-
   }
 }
