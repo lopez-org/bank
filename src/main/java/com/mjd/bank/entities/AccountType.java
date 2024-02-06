@@ -1,5 +1,6 @@
 package com.mjd.bank.entities;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Locale;
 
 public enum AccountType {
@@ -18,6 +19,7 @@ public enum AccountType {
   }
 
   @Override
+  @JsonValue
   public String toString() {
     return this.name().toLowerCase(Locale.ROOT);
   }
