@@ -38,6 +38,12 @@ public class Account {
   @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   private List<Pocket> pockets;
 
+  @OneToMany(mappedBy = "to", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  private List<Transaction> transactionsTo;
+
+  @OneToMany(mappedBy = "from", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  private List<Transaction> transactionsFrom;
+
   @ManyToOne
   @JoinColumn(name = "owner_id")
   private AppUser owner;
