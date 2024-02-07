@@ -1,5 +1,6 @@
 package com.mjd.bank.services.impl;
 
+import com.mjd.bank.dtos.request.CreationRequest;
 import com.mjd.bank.dtos.response.SimpleMessageResponse;
 import com.mjd.bank.entities.Account;
 import com.mjd.bank.entities.AccountType;
@@ -11,7 +12,6 @@ import com.mjd.bank.repositories.AppUserRepository;
 import com.mjd.bank.services.AccountService;
 import com.mjd.bank.utils.TransactionsUtils;
 import java.math.BigDecimal;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,17 +47,19 @@ public class AccountServiceImpl implements AccountService {
   }
 
   @Override
-  public SimpleMessageResponse create(Long ownerId, AccountType type) {
+  public SimpleMessageResponse create(Long ownerId, CreationRequest creationRequest) {
 
     AppUser owner = appUserRepository.findById(ownerId)
             .orElseThrow(() ->new NotFoundException("The user with ID " + ownerId + " doesn't exist"));
 
-      if (type!=AccountType.UNKNOWN){
-        Account account = new Account(type,owner);
+    transactionsUtils.isAccountOwner(ownerId, creationRequest.getOwnerId());
+
+    if (AccountType.getAccountType(creationRequest.getType().toUpperCase())==AccountType.UNKNOWN){
+        throw new IncorrectAccountTypeException("The account type doesn't exist");
+    }else {
+        Account account = new Account(AccountType.getAccountType(creationRequest.getType().toUpperCase()),owner);
         accountRepository.save(account);
         return new SimpleMessageResponse("Account created successfully");
-      }else {
-        throw new IncorrectAccountTypeException("The account type doesn't exist");
       }
   }
 }
