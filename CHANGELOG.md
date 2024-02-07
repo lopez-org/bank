@@ -5,7 +5,9 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [Unreleased
+- Se agrega dependencia y se configuran paquetes para generar swagger specs
+  - PR: [#13] (https://github.com/lopez-org/bank/pull/13) | Authors: [Juan Lopez](https://github.com/JuanLopezMELI) 
 - Se agrega la lógica para mejorar la trazabilidad de las transacciones
   - PR: [#10] (https://github.com/lopez-org/bank/pull/10) | Authors: [Juan Lopez](https://github.com/JuanLopezMELI)
 - Se agregan test unitarios y se actualiza la versión de gradle y springboot
