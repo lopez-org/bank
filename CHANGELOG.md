@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 - Se agrega la lógica para mejorar la trazabilidad de las transacciones
   - PR: [#10] (https://github.com/lopez-org/bank/pull/10) | Authors: [Juan Lopez](https://github.com/JuanLopezMELI)
+- Se agregan test unitarios y se actualiza la versión de gradle y springboot
+  - PR: [#9] (https://github.com/lopez-org/bank/pull/9) | Authors: [Juan Lopez](https://github.com/JuanLopezMELI)
 - Se agrega la lógica para obtener el detalle de una cuenta y la lógica para transferir dinero de la cuenta a un bolsillo
   - PR: [#8] (https://github.com/lopez-org/bank/pull/8) | Authors: [Juan Lopez](https://github.com/JuanLopezMELI)
 - Se agrega la lógica para realizar depósitos en una cuenta
