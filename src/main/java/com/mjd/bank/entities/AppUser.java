@@ -24,4 +24,10 @@ public class AppUser extends Person {
   @OneToMany(mappedBy = "owner", orphanRemoval = true)
   private List<Account> accounts = new ArrayList<>();
 
+  public AppUser(Long id, String name, String lastName, String city, String address, String phoneNumber, String email, String password) {
+    super(id, name, lastName, city, address);
+    this.phoneNumber = phoneNumber;
+    this.email = email;
+    this.password = password;
+  }
 }

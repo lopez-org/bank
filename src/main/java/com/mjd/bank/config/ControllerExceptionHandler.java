@@ -1,6 +1,7 @@
 package com.mjd.bank.config;
 
 import com.mjd.bank.dtos.response.SimpleMessageResponse;
+import com.mjd.bank.exceptions.IncorrectAccountTypeException;
 import com.mjd.bank.exceptions.IncorrectAmountException;
 import com.mjd.bank.exceptions.NotFoundException;
 import com.mjd.bank.exceptions.NotOwnerException;
@@ -24,6 +25,11 @@ public class ControllerExceptionHandler {
 
   @ExceptionHandler(IncorrectAmountException.class)
   public ResponseEntity<SimpleMessageResponse> handleDepositExceptions(IncorrectAmountException e) {
+    return response(e.getMessage(), HttpStatus.BAD_REQUEST);
+  }
+
+  @ExceptionHandler(IncorrectAccountTypeException.class)
+  public ResponseEntity<SimpleMessageResponse> handleCreationExceptions(IncorrectAccountTypeException e) {
     return response(e.getMessage(), HttpStatus.BAD_REQUEST);
   }
 

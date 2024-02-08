@@ -1,8 +1,10 @@
 package com.mjd.bank.entities;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -31,8 +33,14 @@ public class Account {
   private AccountType type;
   private BigDecimal balance;
 
-  @OneToMany(mappedBy = "account", orphanRemoval = true)
-  private List<Pocket> pockets = new ArrayList<>();
+  @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  private List<Pocket> pockets;
+
+  @OneToMany(mappedBy = "to", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  private List<Transaction> transactionsTo;
+
+  @OneToMany(mappedBy = "from", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  private List<Transaction> transactionsFrom;
 
   @ManyToOne
   @JoinColumn(name = "owner_id")
@@ -42,6 +50,18 @@ public class Account {
     this.type = type;
     this.owner = owner;
     balance = new BigDecimal(0);
+  }
+
+  public void addPocket(Pocket pocket) {
+    if (this.pockets == null) {
+      this.pockets = new ArrayList<>();
+    }
+    pocket.setAccount(this);
+    this.pockets.add(pocket);
+  }
+
+  public void addPockets(List<Pocket> pockets) {
+    pockets.forEach(this::addPocket);
   }
 
   @PrePersist

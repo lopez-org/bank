@@ -3,16 +3,15 @@ package com.mjd.bank.entities;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Locale;
 
-public enum AccountType {
-  SAVINGS,
-  CURRENT,
-  FIXED_DEPOSIT,
-  RECURRING_DEPOSIT,
+public enum TransactionType {
+  DEPOSIT,
+  WITHDRAW,
+  TRANSFER,
   UNKNOWN;
 
-  public static AccountType getAccountType(String accountType) {
+  public static TransactionType getTransactionType(String transactionType) {
     try {
-      return AccountType.valueOf(accountType);
+      return TransactionType.valueOf(transactionType.toUpperCase(Locale.ROOT));
     } catch (Exception e) {
       return UNKNOWN;
     }
