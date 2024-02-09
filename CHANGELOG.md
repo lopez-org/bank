@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 - Se crea el endpoint para crear una cuenta
+  - PR: [#14](https://github.com/lopez-org/bank/pulls/14) | Authors: [Juan Lopez](https://github.com/JuanLopezMELI)
+- Se crea el endpoint para crear una cuenta
   - PR: [#11](https://github.com/lopez-org/bank/pulls/11) | Authors: [DahierQuintero](https://github.com/DahierQuintero)
 - Se agrega la lógica para mejorar la trazabilidad de las transacciones
   - PR: [#10] (https://github.com/lopez-org/bank/pull/10) | Authors: [Juan Lopez](https://github.com/JuanLopezMELI)
