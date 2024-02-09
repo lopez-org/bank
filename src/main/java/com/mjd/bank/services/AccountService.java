@@ -1,11 +1,13 @@
 package com.mjd.bank.services;
 
+import com.mjd.bank.dtos.request.CreationRequest;
 import com.mjd.bank.dtos.request.DepositRequest;
 import com.mjd.bank.dtos.response.AccountDetailDTO;
 import com.mjd.bank.dtos.response.SimpleMessageResponse;
-import java.math.BigDecimal;
+
 
 public interface AccountService {
+  SimpleMessageResponse create(Long ownerId, CreationRequest creationRequest);
 
   /**
    * Deposit money to an account
