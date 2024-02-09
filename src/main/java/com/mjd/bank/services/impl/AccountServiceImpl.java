@@ -1,35 +1,39 @@
 package com.mjd.bank.services.impl;
 
+import com.mjd.bank.dtos.request.CreationRequest;
 import com.mjd.bank.dtos.request.DepositRequest;
 import com.mjd.bank.dtos.response.AccountDetailDTO;
 import com.mjd.bank.dtos.response.SimpleMessageResponse;
 import com.mjd.bank.entities.Account;
+import com.mjd.bank.entities.AccountType;
+import com.mjd.bank.entities.AppUser;
 import com.mjd.bank.entities.TransactionStatus;
 import com.mjd.bank.entities.TransactionType;
+import com.mjd.bank.exceptions.IncorrectAccountTypeException;
 import com.mjd.bank.exceptions.NotFoundException;
 import com.mjd.bank.repositories.AccountRepository;
+import com.mjd.bank.repositories.AppUserRepository;
 import com.mjd.bank.repositories.TransactionRepository;
 import com.mjd.bank.services.AccountService;
 import com.mjd.bank.utils.TransactionsUtils;
 import com.mjd.bank.utils.mappers.AccountMapper;
-import java.math.BigDecimal;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AccountServiceImpl implements AccountService {
 
   private final AccountRepository accountRepository;
+  private final AppUserRepository appUserRepository;
   private final AccountMapper accountMapper;
   private final TransactionRepository transactionRepository;
   private final TransactionsUtils transactionsUtils;
 
-  public AccountServiceImpl(
-      AccountRepository accountRepository,
-      TransactionsUtils transactionsUtils,
-      AccountMapper accountMapper,
-      TransactionRepository transactionRepository
-  ) {
+  @Autowired
+  public AccountServiceImpl(AccountRepository accountRepository, AppUserRepository appUserRepository, TransactionsUtils transactionsUtils,
+      AccountMapper accountMapper, TransactionRepository transactionRepository) {
     this.accountRepository = accountRepository;
+    this.appUserRepository = appUserRepository;
     this.transactionsUtils = transactionsUtils;
     this.accountMapper = accountMapper;
     this.transactionRepository = transactionRepository;
@@ -72,5 +76,22 @@ public class AccountServiceImpl implements AccountService {
     transactionsUtils.isAccountOwner(ownerId, account.getOwner().getId());
 
     return accountMapper.toAccountDetailDTO(account);
+  }
+
+  @Override
+  public SimpleMessageResponse create(Long ownerId, CreationRequest creationRequest) {
+
+    AppUser owner = appUserRepository.findById(ownerId)
+        .orElseThrow(() -> new NotFoundException("The user with ID " + ownerId + " doesn't exist"));
+
+    transactionsUtils.isAccountOwner(ownerId, creationRequest.getOwnerId());
+
+    if (AccountType.getAccountType(creationRequest.getType().toUpperCase()) == AccountType.UNKNOWN) {
+      throw new IncorrectAccountTypeException("The account type doesn't exist");
+    }
+
+    Account account = new Account(AccountType.getAccountType(creationRequest.getType().toUpperCase()), owner);
+    accountRepository.save(account);
+    return new SimpleMessageResponse("Account created successfully");
   }
 }

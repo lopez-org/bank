@@ -9,7 +9,6 @@ import com.mjd.bank.repositories.AccountRepository;
 import com.mjd.bank.repositories.PocketRepository;
 import com.mjd.bank.services.PocketService;
 import com.mjd.bank.utils.TransactionsUtils;
-import java.math.BigDecimal;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -40,7 +39,7 @@ public class PocketServiceImpl implements PocketService {
     Pocket pocket = pocketRepository.findById(transferRequest.pocketNumber())
         .orElseThrow(() -> new NotFoundException("Pocket does not belong to this account"));
 
-    transactionsUtils.isPocketTransferValid(account.getBalance(), transferRequest.amount());
+    transactionsUtils.isThereEnoughBalanceToTransfer(account.getBalance(), transferRequest.amount());
 
     account.setBalance(account.getBalance().subtract(transferRequest.amount()));
     pocket.setBalance(pocket.getBalance().add(transferRequest.amount()));

@@ -14,7 +14,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,7 +22,6 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Accessors(chain = true)
 @Entity(name = "account")
 public class Account {
@@ -48,11 +46,17 @@ public class Account {
   @JoinColumn(name = "owner_id")
   private AppUser owner;
 
-  public Account(Long number, AccountType type, BigDecimal balance, AppUser owner) {
-    this.number = number;
+  public Account(AccountType type, AppUser owner) {
     this.type = type;
-    this.balance = balance;
     this.owner = owner;
+    balance = new BigDecimal(0);
+  }
+
+  public Account(Long id, AccountType type, BigDecimal balance, AppUser owner) {
+    this.number = id;
+    this.type = type;
+    this.owner = owner;
+    this.balance = balance;
   }
 
   public void addPocket(Pocket pocket) {

@@ -29,7 +29,7 @@ public class TransactionsUtils {
         }
     }
 
-    public void isPocketTransferValid(BigDecimal accountBalance, BigDecimal amount) {
+    public void isThereEnoughBalanceToTransfer(BigDecimal accountBalance, BigDecimal amount) {
         if (accountBalance.subtract(amount).intValue() < 0) {
             throw new IncorrectAmountException("Account balance is not enough to complete this transaction. Please try again with a lower amount");
         }
