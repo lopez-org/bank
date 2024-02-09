@@ -1,5 +1,7 @@
 package com.mjd.bank.services;
 
+import com.mjd.bank.dtos.request.TransferRequest;
+import com.mjd.bank.dtos.response.SimpleMessageResponse;
 import com.mjd.bank.dtos.response.TransactionDTO;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -15,5 +17,7 @@ public interface TransactionService {
       BigDecimal amountFrom,
       BigDecimal amountTo
   );
+
+  SimpleMessageResponse transfer(Long ownerId, TransferRequest body);
 
 }
