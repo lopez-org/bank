@@ -52,6 +52,13 @@ public class Account {
     balance = new BigDecimal(0);
   }
 
+  public Account(Long id, AccountType type, BigDecimal balance, AppUser owner) {
+    this.number = id;
+    this.type = type;
+    this.owner = owner;
+    this.balance = balance;
+  }
+
   public void addPocket(Pocket pocket) {
     if (this.pockets == null) {
       this.pockets = new ArrayList<>();
