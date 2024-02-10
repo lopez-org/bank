@@ -12,8 +12,6 @@ import com.mjd.bank.entities.TransactionType;
 import com.mjd.bank.exceptions.IncorrectAccountTypeException;
 import com.mjd.bank.exceptions.NotFoundException;
 import com.mjd.bank.repositories.AccountRepository;
-import com.mjd.bank.repositories.AppUserRepository;
-import com.mjd.bank.repositories.TransactionRepository;
 import com.mjd.bank.services.AccountService;
 import com.mjd.bank.services.AppUserService;
 import com.mjd.bank.services.TransactionService;

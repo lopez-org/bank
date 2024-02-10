@@ -7,9 +7,8 @@ import com.mjd.bank.entities.Account;
 import com.mjd.bank.entities.Transaction;
 import com.mjd.bank.entities.TransactionStatus;
 import com.mjd.bank.entities.TransactionType;
-import com.mjd.bank.exceptions.NotFoundException;
-import com.mjd.bank.repositories.AccountRepository;
 import com.mjd.bank.repositories.TransactionRepository;
+import com.mjd.bank.services.AccountService;
 import com.mjd.bank.services.TransactionService;
 import com.mjd.bank.utils.TransactionsUtils;
 import com.mjd.bank.utils.mappers.TransactionMapper;
@@ -22,18 +21,18 @@ import org.springframework.stereotype.Service;
 @Service
 public class TransactionServiceImpl implements TransactionService {
 
-  private final AccountRepository accountRepository;
+  private final AccountService accountService;
   private final TransactionRepository transactionRepository;
   private final TransactionMapper transactionMapper;
   private final TransactionsUtils transactionsUtils;
 
   public TransactionServiceImpl(TransactionRepository transactionRepository,
-      AccountRepository accountRepository,
+      AccountService accountService,
       TransactionMapper transactionMapper,
       TransactionsUtils transactionsUtils
   ) {
     this.transactionRepository = transactionRepository;
-    this.accountRepository = accountRepository;
+    this.accountService = accountService;
     this.transactionMapper = transactionMapper;
     this.transactionsUtils = transactionsUtils;
   }
@@ -48,7 +47,7 @@ public class TransactionServiceImpl implements TransactionService {
       BigDecimal amountFrom,
       BigDecimal amountTo
   ) {
-    Account account = getAccountById(accountNumber);
+    Account account = accountService.getAccountById(accountNumber);
 
     Example<Transaction> example = transactionMapper.buildExampleTransactionQuery(
         account, type, status, dateFrom, dateTo, amountFrom, amountTo
@@ -62,15 +61,15 @@ public class TransactionServiceImpl implements TransactionService {
   @Override
   public SimpleMessageResponse transfer(Long ownerId, TransactionTransferRequest body) {
 
-    Account accountFrom = getAccountById(body.from());
+    Account accountFrom = accountService.getAccountById(body.from());
     transactionsUtils.isAccountOwner(ownerId, accountFrom.getOwner().getId());
 
-    Account accountTo = getAccountById(body.to());
+    Account accountTo = accountService.getAccountById(body.to());
     transactionsUtils.validateTransferAmounts(accountFrom, body.amount());
     transactionsUtils.transferMoneyBetweenAccounts(accountFrom, accountTo, body.amount());
 
-    saveAccount(accountFrom);
-    saveAccount(accountTo);
+    accountService.save(accountFrom);
+    accountService.save(accountTo);
     saveTransaction(accountFrom, accountTo, body.description(), body.amount());
 
     return new SimpleMessageResponse("Transfer completed successfully");
@@ -81,13 +80,8 @@ public class TransactionServiceImpl implements TransactionService {
     transactionRepository.save(transaction);
   }
 
-  private Account getAccountById(Long id) {
-    return accountRepository.findById(id)
-        .orElseThrow(() -> new NotFoundException("Account not found"));
-  }
-
-  public void saveTransaction(Account accountFrom, Account accountTo, String description, BigDecimal amount) {
-    transactionRepository.save(
+  private void saveTransaction(Account accountFrom, Account accountTo, String description, BigDecimal amount) {
+    save(
         transactionsUtils.buildTransaction(
             accountFrom,
             accountTo,
@@ -99,7 +93,4 @@ public class TransactionServiceImpl implements TransactionService {
     );
   }
 
-  private void saveAccount(Account account) {
-    accountRepository.save(account);
-  }
 }
