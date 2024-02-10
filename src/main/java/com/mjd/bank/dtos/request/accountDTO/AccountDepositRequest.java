@@ -1,4 +1,4 @@
-package com.mjd.bank.dtos.request;
+package com.mjd.bank.dtos.request.accountDTO;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
@@ -15,7 +15,7 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor
 @Accessors(chain=true)
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class DepositRequest {
+public class AccountDepositRequest {
   private Long accountNumber;
   private BigDecimal amount;
 }

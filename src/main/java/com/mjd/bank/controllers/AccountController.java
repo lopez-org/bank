@@ -1,7 +1,7 @@
 package com.mjd.bank.controllers;
 
-import com.mjd.bank.dtos.request.CreationRequest;
-import com.mjd.bank.dtos.request.DepositRequest;
+import com.mjd.bank.dtos.request.accountDTO.AccountCreationRequest;
+import com.mjd.bank.dtos.request.accountDTO.AccountDepositRequest;
 import com.mjd.bank.dtos.response.AccountDetailDTO;
 import com.mjd.bank.dtos.response.SimpleMessageResponse;
 import com.mjd.bank.services.AccountService;
@@ -27,7 +27,7 @@ public class AccountController {
   }
 
   @PostMapping ("/deposit")
-  public SimpleMessageResponse deposit(@RequestHeader(name = "owner_id") Long ownerId, @RequestBody DepositRequest depositRequest) {
+  public SimpleMessageResponse deposit(@RequestHeader(name = "owner_id") Long ownerId, @RequestBody AccountDepositRequest depositRequest) {
     return accountService.deposit(ownerId, depositRequest);
   }
 
@@ -37,7 +37,7 @@ public class AccountController {
   }
 
   @PostMapping ("/create")
-  public SimpleMessageResponse create(@RequestHeader(name = "owner_id") Long ownerId, @RequestBody CreationRequest creationRequest) {
+  public SimpleMessageResponse create(@RequestHeader(name = "owner_id") Long ownerId, @RequestBody AccountCreationRequest creationRequest) {
     return accountService.create(ownerId, creationRequest);
   }
 }

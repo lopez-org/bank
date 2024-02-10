@@ -1,6 +1,6 @@
 package com.mjd.bank.controllers;
 
-import com.mjd.bank.dtos.request.TransferRequest;
+import com.mjd.bank.dtos.request.transactionDTO.TransactionTransferRequest;
 import com.mjd.bank.dtos.response.SimpleMessageResponse;
 import com.mjd.bank.dtos.response.TransactionDTO;
 import com.mjd.bank.services.TransactionService;
@@ -39,7 +39,7 @@ public class TransactionController {
   }
 
   @PostMapping("/transfers")
-  public SimpleMessageResponse transfer(@RequestHeader("owner_id") Long ownerId, @RequestBody TransferRequest body) {
+  public SimpleMessageResponse transfer(@RequestHeader("owner_id") Long ownerId, @RequestBody TransactionTransferRequest body) {
     return transactionService.transfer(ownerId, body);
   }
 }

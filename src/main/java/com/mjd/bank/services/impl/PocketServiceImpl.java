@@ -1,9 +1,11 @@
 package com.mjd.bank.services.impl;
 
-import com.mjd.bank.dtos.request.PocketTransferRequest;
+import com.mjd.bank.dtos.request.pocketDTO.PocketCreationRequest;
+import com.mjd.bank.dtos.request.pocketDTO.PocketTransferRequest;
 import com.mjd.bank.dtos.response.SimpleMessageResponse;
 import com.mjd.bank.entities.Account;
 import com.mjd.bank.entities.Pocket;
+import com.mjd.bank.exceptions.InvalidNameException;
 import com.mjd.bank.exceptions.NotFoundException;
 import com.mjd.bank.repositories.AccountRepository;
 import com.mjd.bank.repositories.PocketRepository;
@@ -47,5 +49,37 @@ public class PocketServiceImpl implements PocketService {
     pocketRepository.save(pocket);
 
     return new SimpleMessageResponse(String.format("Deposit of %s to pocket '%s' completed", transferRequest.amount(), pocket.getName()));
+  }
+
+  @Override
+  public SimpleMessageResponse create(Long ownerId, PocketCreationRequest creationRequest) {
+
+    Account account = getAccountById(creationRequest.AccountNumber());
+
+    transactionsUtils.isAccountOwner(ownerId, account.getOwner().getId());
+
+    transactionsUtils.isAmountValidForCreatePocket(creationRequest.amount());
+
+    transactionsUtils.isThereEnoughBalanceToTransfer(account.getBalance(),creationRequest.amount());
+
+    transactionsUtils.isPocketNameValid(account,creationRequest.name());
+
+    account.setBalance(account.getBalance().subtract(creationRequest.amount()));
+    Pocket newPocket = new Pocket(
+            null,
+            creationRequest.name(),
+            creationRequest.amount()
+    );
+
+    account.addPocket(newPocket);
+    accountRepository.save(account);
+    pocketRepository.save(newPocket);
+
+    return new SimpleMessageResponse("The Pocket named " + creationRequest.name() + " was successfully created");
+  }
+
+  private Account getAccountById(Long id) {
+    return accountRepository.findById(id)
+            .orElseThrow(() -> new NotFoundException("Account not found"));
   }
 }

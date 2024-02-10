@@ -1,6 +1,7 @@
 package com.mjd.bank.controllers;
 
-import com.mjd.bank.dtos.request.PocketTransferRequest;
+import com.mjd.bank.dtos.request.pocketDTO.PocketCreationRequest;
+import com.mjd.bank.dtos.request.pocketDTO.PocketTransferRequest;
 import com.mjd.bank.dtos.response.SimpleMessageResponse;
 import com.mjd.bank.services.PocketService;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,5 +23,10 @@ public class PocketController {
   @PostMapping("/transfer")
   public SimpleMessageResponse transfer(@RequestHeader(name = "owner_id")Long ownerId, @RequestBody PocketTransferRequest transferRequest) {
     return pocketService.depositFromAccount(ownerId, transferRequest);
+  }
+
+  @PostMapping("/create")
+  public SimpleMessageResponse create(@RequestHeader(name = "owner_id")Long ownerId, @RequestBody PocketCreationRequest creationRequest) {
+    return pocketService.create(ownerId, creationRequest);
   }
 }

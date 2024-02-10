@@ -1,6 +1,6 @@
 package com.mjd.bank.services.impl;
 
-import com.mjd.bank.dtos.request.TransferRequest;
+import com.mjd.bank.dtos.request.transactionDTO.TransactionTransferRequest;
 import com.mjd.bank.dtos.response.SimpleMessageResponse;
 import com.mjd.bank.dtos.response.TransactionDTO;
 import com.mjd.bank.entities.Account;
@@ -60,7 +60,7 @@ public class TransactionServiceImpl implements TransactionService {
   }
 
   @Override
-  public SimpleMessageResponse transfer(Long ownerId, TransferRequest body) {
+  public SimpleMessageResponse transfer(Long ownerId, TransactionTransferRequest body) {
 
     Account accountFrom = getAccountById(body.from());
     transactionsUtils.isAccountOwner(ownerId, accountFrom.getOwner().getId());
