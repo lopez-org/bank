@@ -1,4 +1,4 @@
-package com.mjd.bank.dtos.request;
+package com.mjd.bank.dtos.request.accountDTO;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
@@ -14,7 +14,7 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor
 @Accessors(chain=true)
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class CreationRequest {
+public class AccountCreationRequest {
     private Long ownerId;
     private String type;
 }

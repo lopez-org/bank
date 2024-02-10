@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+- Se crea el endpoint para crear un bolsillo
+  - PR: [#15](https://github.com/lopez-org/bank/pulls/15) | Authors: [DahierQuintero](https://github.com/DahierQuintero)
 - Se crea el endpoint para crear una cuenta
   - PR: [#14](https://github.com/lopez-org/bank/pulls/14) | Authors: [Juan Lopez](https://github.com/JuanLopezMELI) | [DahierQuintero](https://github.com/DahierQuintero)
 - Se agrega dependencia y se configuran paquetes para generar swagger specs

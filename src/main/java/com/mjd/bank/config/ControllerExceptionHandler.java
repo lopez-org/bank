@@ -1,10 +1,7 @@
 package com.mjd.bank.config;
 
 import com.mjd.bank.dtos.response.SimpleMessageResponse;
-import com.mjd.bank.exceptions.IncorrectAccountTypeException;
-import com.mjd.bank.exceptions.IncorrectAmountException;
-import com.mjd.bank.exceptions.NotFoundException;
-import com.mjd.bank.exceptions.NotOwnerException;
+import com.mjd.bank.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -33,7 +30,12 @@ public class ControllerExceptionHandler {
     return response(e.getMessage(), HttpStatus.BAD_REQUEST);
   }
 
+  @ExceptionHandler(InvalidNameException.class)
+  public ResponseEntity<SimpleMessageResponse> handleCreationExceptions(InvalidNameException e) {
+    return response(e.getMessage(),HttpStatus.CONFLICT);
+  }
   private ResponseEntity<SimpleMessageResponse> response(String message, HttpStatus status) {
     return new ResponseEntity<>(new SimpleMessageResponse(message), status);
   }
+
 }

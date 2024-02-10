@@ -1,6 +1,7 @@
 package com.mjd.bank.services;
 
-import com.mjd.bank.dtos.request.PocketTransferRequest;
+import com.mjd.bank.dtos.request.pocketDTO.PocketCreationRequest;
+import com.mjd.bank.dtos.request.pocketDTO.PocketTransferRequest;
 import com.mjd.bank.dtos.response.SimpleMessageResponse;
 
 public interface PocketService {
@@ -12,4 +13,5 @@ public interface PocketService {
    * @return A {@link SimpleMessageResponse} containing a message with the result of the operation
    */
   SimpleMessageResponse depositFromAccount(Long ownerId, PocketTransferRequest pocketTransferRequest);
+  SimpleMessageResponse create(Long ownerId, PocketCreationRequest creationRequest);
 }

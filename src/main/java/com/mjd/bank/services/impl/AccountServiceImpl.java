@@ -1,7 +1,7 @@
 package com.mjd.bank.services.impl;
 
-import com.mjd.bank.dtos.request.CreationRequest;
-import com.mjd.bank.dtos.request.DepositRequest;
+import com.mjd.bank.dtos.request.accountDTO.AccountCreationRequest;
+import com.mjd.bank.dtos.request.accountDTO.AccountDepositRequest;
 import com.mjd.bank.dtos.response.AccountDetailDTO;
 import com.mjd.bank.dtos.response.SimpleMessageResponse;
 import com.mjd.bank.entities.Account;
@@ -40,7 +40,7 @@ public class AccountServiceImpl implements AccountService {
   }
 
   @Override
-  public SimpleMessageResponse deposit(Long ownerId, DepositRequest depositRequest) {
+  public SimpleMessageResponse deposit(Long ownerId, AccountDepositRequest depositRequest) {
 
     transactionsUtils.isAmountValid(depositRequest.getAmount());
 
@@ -79,7 +79,7 @@ public class AccountServiceImpl implements AccountService {
   }
 
   @Override
-  public SimpleMessageResponse create(Long ownerId, CreationRequest creationRequest) {
+  public SimpleMessageResponse create(Long ownerId, AccountCreationRequest creationRequest) {
 
     AppUser owner = appUserRepository.findById(ownerId)
         .orElseThrow(() -> new NotFoundException("The user with ID " + ownerId + " doesn't exist"));
