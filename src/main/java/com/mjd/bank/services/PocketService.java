@@ -3,6 +3,7 @@ package com.mjd.bank.services;
 import com.mjd.bank.dtos.request.pocketDTO.PocketCreationRequest;
 import com.mjd.bank.dtos.request.pocketDTO.PocketTransferRequest;
 import com.mjd.bank.dtos.response.SimpleMessageResponse;
+import com.mjd.bank.entities.Pocket;
 
 public interface PocketService {
 
@@ -14,4 +15,6 @@ public interface PocketService {
    */
   SimpleMessageResponse depositFromAccount(Long ownerId, PocketTransferRequest pocketTransferRequest);
   SimpleMessageResponse create(Long ownerId, PocketCreationRequest creationRequest);
+  Pocket getPocketById(Long id);
+  void save (Pocket pocket);
 }

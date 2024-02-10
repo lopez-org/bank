@@ -4,6 +4,7 @@ import com.mjd.bank.dtos.request.accountDTO.AccountCreationRequest;
 import com.mjd.bank.dtos.request.accountDTO.AccountDepositRequest;
 import com.mjd.bank.dtos.response.AccountDetailDTO;
 import com.mjd.bank.dtos.response.SimpleMessageResponse;
+import com.mjd.bank.entities.Account;
 
 
 public interface AccountService {
@@ -25,4 +26,6 @@ public interface AccountService {
    * @return An {@link AccountDetailDTO} containing the details of the account
    */
   AccountDetailDTO getAccountDetail(Long ownerId, Long accountId);
+  Account getAccountById(Long id);
+  void save(Account account);
 }

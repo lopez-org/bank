@@ -9,6 +9,7 @@ import com.mjd.bank.exceptions.InvalidNameException;
 import com.mjd.bank.exceptions.NotFoundException;
 import com.mjd.bank.repositories.AccountRepository;
 import com.mjd.bank.repositories.PocketRepository;
+import com.mjd.bank.services.AccountService;
 import com.mjd.bank.services.PocketService;
 import com.mjd.bank.utils.TransactionsUtils;
 import org.springframework.stereotype.Service;
@@ -16,37 +17,35 @@ import org.springframework.stereotype.Service;
 @Service
 public class PocketServiceImpl implements PocketService {
 
-  private final AccountRepository accountRepository;
+  private final AccountService accountService;
   private final PocketRepository pocketRepository;
   private final TransactionsUtils transactionsUtils;
 
   public PocketServiceImpl(
       PocketRepository pocketRepository,
       TransactionsUtils transactionsUtils,
-      AccountRepository accountRepository
+      AccountService accountService
   ) {
     this.pocketRepository = pocketRepository;
     this.transactionsUtils = transactionsUtils;
-    this.accountRepository = accountRepository;
+    this.accountService = accountService;
   }
 
   @Override
   public SimpleMessageResponse depositFromAccount(Long ownerId, PocketTransferRequest transferRequest) {
 
-    Account account = accountRepository.findById(transferRequest.accountNumber())
-        .orElseThrow(() -> new NotFoundException("Account not found"));
+    Account account = accountService.getAccountById(transferRequest.accountNumber());
 
     transactionsUtils.isAccountOwner(ownerId, account.getOwner().getId());
 
-    Pocket pocket = pocketRepository.findById(transferRequest.pocketNumber())
-        .orElseThrow(() -> new NotFoundException("Pocket does not belong to this account"));
+    Pocket pocket = getPocketById(transferRequest.pocketNumber());
 
     transactionsUtils.isThereEnoughBalanceToTransfer(account.getBalance(), transferRequest.amount());
 
     account.setBalance(account.getBalance().subtract(transferRequest.amount()));
     pocket.setBalance(pocket.getBalance().add(transferRequest.amount()));
-    accountRepository.save(account);
-    pocketRepository.save(pocket);
+    accountService.save(account);
+    save(pocket);
 
     return new SimpleMessageResponse(String.format("Deposit of %s to pocket '%s' completed", transferRequest.amount(), pocket.getName()));
   }
@@ -54,7 +53,7 @@ public class PocketServiceImpl implements PocketService {
   @Override
   public SimpleMessageResponse create(Long ownerId, PocketCreationRequest creationRequest) {
 
-    Account account = getAccountById(creationRequest.AccountNumber());
+    Account account = accountService.getAccountById(creationRequest.AccountNumber());
 
     transactionsUtils.isAccountOwner(ownerId, account.getOwner().getId());
 
@@ -72,14 +71,20 @@ public class PocketServiceImpl implements PocketService {
     );
 
     account.addPocket(newPocket);
-    accountRepository.save(account);
-    pocketRepository.save(newPocket);
+    accountService.save(account);
+    save(newPocket);
 
     return new SimpleMessageResponse("The Pocket named " + creationRequest.name() + " was successfully created");
   }
 
-  private Account getAccountById(Long id) {
-    return accountRepository.findById(id)
-            .orElseThrow(() -> new NotFoundException("Account not found"));
+  @Override
+  public Pocket getPocketById(Long id) {
+    return pocketRepository.findById(id)
+            .orElseThrow(() -> new NotFoundException("Pocket does not belong to this account"));
+  }
+
+  @Override
+  public void save(Pocket pocket) {
+      pocketRepository.save(pocket);
   }
 }
