@@ -33,15 +33,14 @@ public class TransactionsUtils {
         }
     }
 
-    public Transaction buildTransaction(Account from, Account to, BigDecimal amount, TransactionType type, TransactionStatus status, String description) {
-        return new Transaction()
-            .setFrom(from)
-            .setTo(to)
-            .setAmount(amount)
-            .setType(type)
-            .setDescription(description)
-            .setStatus(status)
-            .setCreatedAt(LocalDateTime.now());
+    public void transferMoneyBetweenAccounts(Account accountFrom, Account accountTo, BigDecimal amount) {
+        accountFrom.setBalance(accountFrom.getBalance().subtract(amount));
+        accountTo.setBalance(accountTo.getBalance().add(amount));
+    }
+
+    public void validateTransferAmounts(Account account, BigDecimal amount) {
+        isAmountValid(amount);
+        isThereEnoughBalanceToTransfer(account.getBalance(), amount);
     }
 
     public void isAmountValidForCreatePocket(BigDecimal amount) {
@@ -51,11 +50,21 @@ public class TransactionsUtils {
     }
 
     public void isPocketNameValid (Account account, String name) {
-
         for (Pocket pocket : account.getPockets()) {
             if (pocket.getName().equalsIgnoreCase(name)) {
                 throw new InvalidNameException("The name already exists. Try another name");
             }
         }
+    }
+
+    public Transaction buildTransaction(Account from, Account to, BigDecimal amount, TransactionType type, TransactionStatus status, String description) {
+        return new Transaction()
+            .setFrom(from)
+            .setTo(to)
+            .setAmount(amount)
+            .setType(type)
+            .setDescription(description)
+            .setStatus(status)
+            .setCreatedAt(LocalDateTime.now());
     }
 }

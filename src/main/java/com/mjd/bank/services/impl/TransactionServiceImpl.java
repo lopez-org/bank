@@ -64,14 +64,16 @@ public class TransactionServiceImpl implements TransactionService {
 
     Account accountFrom = getAccountById(body.from());
     transactionsUtils.isAccountOwner(ownerId, accountFrom.getOwner().getId());
-    Account accountTo = getAccountById(body.to());
 
-    validateTransferAmounts(accountFrom, body.amount());
-    transferMoney(accountFrom, accountTo, body.amount());
-    saveAccountBalances(accountFrom, accountTo);
+    Account accountTo = getAccountById(body.to());
+    transactionsUtils.validateTransferAmounts(accountFrom, body.amount());
+    transactionsUtils.transferMoneyBetweenAccounts(accountFrom, accountTo, body.amount());
+
+    saveAccount(accountFrom);
+    saveAccount(accountTo);
     saveTransaction(accountFrom, accountTo, body.description(), body.amount());
 
-    return new SimpleMessageResponse("Dinero transferido exitosamente");
+    return new SimpleMessageResponse("Transfer completed successfully");
   }
 
   private Account getAccountById(Long id) {
@@ -79,33 +81,20 @@ public class TransactionServiceImpl implements TransactionService {
         .orElseThrow(() -> new NotFoundException("Account not found"));
   }
 
-  private void validateTransferAmounts(Account account, BigDecimal amount) {
-    transactionsUtils.isAmountValid(amount);
-    transactionsUtils.isThereEnoughBalanceToTransfer(account.getBalance(), amount);
-  }
-
-  private void transferMoney(Account accountFrom, Account accountTo, BigDecimal amount) {
-    accountFrom.setBalance(accountFrom.getBalance().subtract(amount));
-    accountTo.setBalance(accountTo.getBalance().add(amount));
-  }
-
-  private void saveTransaction(Account accountFrom, Account accountTo, String description, BigDecimal amount) {
+  public void saveTransaction(Account accountFrom, Account accountTo, String description, BigDecimal amount) {
     transactionRepository.save(
-        new Transaction(
-            null,
+        transactionsUtils.buildTransaction(
             accountFrom,
             accountTo,
             amount,
             TransactionType.TRANSFER,
             TransactionStatus.COMPLETED,
-            description,
-            LocalDateTime.now()
+            description
         )
     );
   }
 
-  private void saveAccountBalances(Account accountFrom, Account accountTo) {
-    accountRepository.save(accountFrom);
-    accountRepository.save(accountTo);
+  private void saveAccount(Account account) {
+    accountRepository.save(account);
   }
 }
