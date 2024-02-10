@@ -76,6 +76,11 @@ public class TransactionServiceImpl implements TransactionService {
     return new SimpleMessageResponse("Transfer completed successfully");
   }
 
+  @Override
+  public void save(Transaction transaction) {
+    transactionRepository.save(transaction);
+  }
+
   private Account getAccountById(Long id) {
     return accountRepository.findById(id)
         .orElseThrow(() -> new NotFoundException("Account not found"));

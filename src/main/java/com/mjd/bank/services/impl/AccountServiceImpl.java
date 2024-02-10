@@ -15,6 +15,8 @@ import com.mjd.bank.repositories.AccountRepository;
 import com.mjd.bank.repositories.AppUserRepository;
 import com.mjd.bank.repositories.TransactionRepository;
 import com.mjd.bank.services.AccountService;
+import com.mjd.bank.services.AppUserService;
+import com.mjd.bank.services.TransactionService;
 import com.mjd.bank.utils.TransactionsUtils;
 import com.mjd.bank.utils.mappers.AccountMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,19 +26,19 @@ import org.springframework.stereotype.Service;
 public class AccountServiceImpl implements AccountService {
 
   private final AccountRepository accountRepository;
-  private final AppUserRepository appUserRepository;
+  private final AppUserService appUserService;
   private final AccountMapper accountMapper;
-  private final TransactionRepository transactionRepository;
+  private final TransactionService transactionService;
   private final TransactionsUtils transactionsUtils;
 
   @Autowired
-  public AccountServiceImpl(AccountRepository accountRepository, AppUserRepository appUserRepository, TransactionsUtils transactionsUtils,
-      AccountMapper accountMapper, TransactionRepository transactionRepository) {
+  public AccountServiceImpl(AccountRepository accountRepository, AppUserService appUserService, TransactionsUtils transactionsUtils,
+      AccountMapper accountMapper, TransactionService transactionService) {
     this.accountRepository = accountRepository;
-    this.appUserRepository = appUserRepository;
+    this.appUserService = appUserService;
     this.transactionsUtils = transactionsUtils;
     this.accountMapper = accountMapper;
-    this.transactionRepository = transactionRepository;
+    this.transactionService = transactionService;
   }
 
   @Override
@@ -44,14 +46,13 @@ public class AccountServiceImpl implements AccountService {
 
     transactionsUtils.isAmountValid(depositRequest.getAmount());
 
-    Account account = accountRepository.findById(depositRequest.getAccountNumber())
-        .orElseThrow(() -> new NotFoundException("Account not found"));
+    Account account = getAccountById(depositRequest.getAccountNumber());
 
     transactionsUtils.isAccountOwner(ownerId, account.getOwner().getId());
 
     account.setBalance(account.getBalance().add(depositRequest.getAmount()));
-    accountRepository.save(account);
-    transactionRepository.save(
+    save(account);
+    transactionService.save(
         transactionsUtils.buildTransaction(
             account,
             null,
@@ -70,8 +71,7 @@ public class AccountServiceImpl implements AccountService {
   @Override
   public AccountDetailDTO getAccountDetail(Long ownerId, Long accountId) {
 
-    Account account = accountRepository.findById(accountId)
-        .orElseThrow(() -> new NotFoundException("Account not found"));
+    Account account = getAccountById(accountId);
 
     transactionsUtils.isAccountOwner(ownerId, account.getOwner().getId());
 
@@ -81,8 +81,7 @@ public class AccountServiceImpl implements AccountService {
   @Override
   public SimpleMessageResponse create(Long ownerId, AccountCreationRequest creationRequest) {
 
-    AppUser owner = appUserRepository.findById(ownerId)
-        .orElseThrow(() -> new NotFoundException("The user with ID " + ownerId + " doesn't exist"));
+    AppUser owner = appUserService.getUserById(creationRequest.getOwnerId());
 
     transactionsUtils.isAccountOwner(ownerId, creationRequest.getOwnerId());
 
@@ -91,7 +90,20 @@ public class AccountServiceImpl implements AccountService {
     }
 
     Account account = new Account(AccountType.getAccountType(creationRequest.getType().toUpperCase()), owner);
-    accountRepository.save(account);
+    save(account);
     return new SimpleMessageResponse("Account created successfully");
   }
+
+  @Override
+  public Account getAccountById(Long id) {
+    return accountRepository.findById(id)
+            .orElseThrow(() -> new NotFoundException("Account not found"));
+  }
+
+  @Override
+  public void save(Account account) {
+    accountRepository.save(account);
+  }
+
+
 }
