@@ -12,9 +12,9 @@ import com.mjd.bank.entities.TransactionType;
 import com.mjd.bank.exceptions.IncorrectAccountTypeException;
 import com.mjd.bank.exceptions.NotFoundException;
 import com.mjd.bank.repositories.AccountRepository;
+import com.mjd.bank.repositories.TransactionRepository;
 import com.mjd.bank.services.AccountService;
 import com.mjd.bank.services.AppUserService;
-import com.mjd.bank.services.TransactionService;
 import com.mjd.bank.utils.TransactionsUtils;
 import com.mjd.bank.utils.mappers.AccountMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,17 +26,17 @@ public class AccountServiceImpl implements AccountService {
   private final AccountRepository accountRepository;
   private final AppUserService appUserService;
   private final AccountMapper accountMapper;
-  private final TransactionService transactionService;
+  private final TransactionRepository transactionRepository;
   private final TransactionsUtils transactionsUtils;
 
   @Autowired
   public AccountServiceImpl(AccountRepository accountRepository, AppUserService appUserService, TransactionsUtils transactionsUtils,
-      AccountMapper accountMapper, TransactionService transactionService) {
+      AccountMapper accountMapper, TransactionRepository transactionRepository) {
     this.accountRepository = accountRepository;
     this.appUserService = appUserService;
     this.transactionsUtils = transactionsUtils;
     this.accountMapper = accountMapper;
-    this.transactionService = transactionService;
+    this.transactionRepository = transactionRepository;
   }
 
   @Override
@@ -50,7 +50,7 @@ public class AccountServiceImpl implements AccountService {
 
     account.setBalance(account.getBalance().add(depositRequest.getAmount()));
     save(account);
-    transactionService.save(
+    transactionRepository.save(
         transactionsUtils.buildTransaction(
             account,
             null,
