@@ -37,6 +37,11 @@ public class ControllerExceptionHandler {
     return response(e.getMessage(), HttpStatus.CONFLICT);
   }
 
+  @ExceptionHandler(ExpiredJwtException.class)
+  public ResponseEntity<SimpleMessageResponse> handleExpiredJwtException(ExpiredJwtException e) {
+    return response(e.getMessage(), HttpStatus.UNAUTHORIZED);
+  }
+
   @ExceptionHandler(Exception.class)
   public ResponseEntity<SimpleMessageResponse> handleBasicException(Exception e) {
     return response(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
