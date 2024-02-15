@@ -3,9 +3,7 @@ package com.mjd.bank.config;
 import static com.mjd.bank.exceptions.factory.ExceptionFactory.resolve;
 
 import com.mjd.bank.dtos.response.SimpleMessageResponse;
-import com.mjd.bank.exceptions.*;
-import io.jsonwebtoken.ExpiredJwtException;
-import javax.security.auth.login.CredentialExpiredException;
+import com.mjd.bank.exceptions.ApiException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

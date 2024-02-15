@@ -5,7 +5,6 @@ import com.mjd.bank.dtos.request.accountDTO.AccountDepositRequest;
 import com.mjd.bank.dtos.response.AccountDetailDTO;
 import com.mjd.bank.dtos.response.SimpleMessageResponse;
 import com.mjd.bank.services.AccountService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

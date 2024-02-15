@@ -1,6 +1,10 @@
 package com.mjd.bank.utils;
 
-import com.mjd.bank.entities.*;
+import com.mjd.bank.entities.Account;
+import com.mjd.bank.entities.Pocket;
+import com.mjd.bank.entities.Transaction;
+import com.mjd.bank.entities.TransactionStatus;
+import com.mjd.bank.entities.TransactionType;
 import com.mjd.bank.exceptions.IncorrectAmountException;
 import com.mjd.bank.exceptions.InvalidNameException;
 import com.mjd.bank.exceptions.NotOwnerException;
