@@ -1,7 +1,7 @@
 package com.mjd.bank.services.impl;
 
 import com.mjd.bank.dtos.request.pocketDTO.PocketCreationRequest;
-import com.mjd.bank.dtos.request.pocketDTO.PocketTransferRequest;
+import com.mjd.bank.dtos.request.pocketDTO.PocketDepositRequest;
 import com.mjd.bank.dtos.response.SimpleMessageResponse;
 import com.mjd.bank.entities.Account;
 import com.mjd.bank.entities.Pocket;
@@ -30,7 +30,7 @@ public class PocketServiceImpl implements PocketService {
   }
 
   @Override
-  public SimpleMessageResponse depositFromAccount(Long ownerId, PocketTransferRequest transferRequest) {
+  public SimpleMessageResponse depositFromAccount(Long ownerId, PocketDepositRequest transferRequest) {
 
     Account account = accountService.getAccountById(transferRequest.accountNumber());
 
@@ -38,6 +38,7 @@ public class PocketServiceImpl implements PocketService {
 
     Pocket pocket = getPocketById(transferRequest.pocketNumber());
 
+    transactionsUtils.isAmountValid(transferRequest.amount());
     transactionsUtils.isThereEnoughBalanceToTransfer(account.getBalance(), transferRequest.amount());
 
     account.setBalance(account.getBalance().subtract(transferRequest.amount()));
@@ -76,13 +77,33 @@ public class PocketServiceImpl implements PocketService {
   }
 
   @Override
+  public SimpleMessageResponse depositFromPocket(Long ownerId, PocketDepositRequest withdrawRequest) {
+
+    Account account = accountService.getAccountById(withdrawRequest.accountNumber());
+
+    transactionsUtils.isAccountOwner(ownerId, account.getOwner().getId());
+
+    Pocket pocket = getPocketById(withdrawRequest.pocketNumber());
+
+    transactionsUtils.isAmountValid(withdrawRequest.amount());
+    transactionsUtils.isThereEnoughBalanceToTransfer(pocket.getBalance(), withdrawRequest.amount());
+
+    pocket.setBalance(pocket.getBalance().subtract(withdrawRequest.amount()));
+    account.setBalance(account.getBalance().add(withdrawRequest.amount()));
+    save(pocket);
+    accountService.save(account);
+
+    return new SimpleMessageResponse(String.format("Deposit of %s to account '%s' completed", withdrawRequest.amount(), account.getNumber()));
+  }
+
+  @Override
   public Pocket getPocketById(Long id) {
     return pocketRepository.findById(id)
-            .orElseThrow(() -> new NotFoundException("Pocket does not belong to this account"));
+        .orElseThrow(() -> new NotFoundException("Pocket does not belong to this account"));
   }
 
   @Override
   public void save(Pocket pocket) {
-      pocketRepository.save(pocket);
+    pocketRepository.save(pocket);
   }
 }

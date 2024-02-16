@@ -55,4 +55,5 @@ These systems represent the backbone of banking operations, enabling individuals
 
 - Uses layered architecture
 - Uses DTO design pattern
+- Uses Security with Spring Security and JWT
 - Uses CI/CD
