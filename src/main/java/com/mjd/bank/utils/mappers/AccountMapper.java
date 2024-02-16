@@ -4,7 +4,6 @@ import com.mjd.bank.dtos.response.AccountDetailDTO;
 import com.mjd.bank.dtos.response.PocketDetailDTO;
 import com.mjd.bank.entities.Account;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration

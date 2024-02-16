@@ -1,6 +1,5 @@
 package com.mjd.bank.services;
 
-import javax.security.auth.login.CredentialExpiredException;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public interface JwtService {
