@@ -2,7 +2,6 @@ package com.mjd.bank.config;
 
 import com.mjd.bank.services.AppUserService;
 import com.mjd.bank.services.JwtService;
-import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

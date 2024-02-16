@@ -1,6 +1,7 @@
 package com.mjd.bank.entities;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Id;
+import jakarta.persistence.MappedSuperclass;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
