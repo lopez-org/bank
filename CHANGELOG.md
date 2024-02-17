@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+- Se agrega endpoint en Pocket para transferir desde el bolsillo hacia la cuenta y se actualiza el README.md
+  - PR: [#20](https://github.com/lopez-org/bank/pull/20) | Authors: [DahierQuintero](https://github.com/DahierQuintero)
 - Se agrega factory de excepciones
   - PR: [#19](https://github.com/lopez-org/bank/pull/19) | Authors: [Juan Lopez](https://github.com/JuanLopezMELI)
 - Se agregan módulos de spring security

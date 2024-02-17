@@ -42,19 +42,19 @@ public class AccountServiceImpl implements AccountService {
   @Override
   public SimpleMessageResponse deposit(Long ownerId, AccountDepositRequest depositRequest) {
 
-    transactionsUtils.isAmountValid(depositRequest.getAmount());
+    transactionsUtils.isAmountValid(depositRequest.amount());
 
-    Account account = getAccountById(depositRequest.getAccountNumber());
+    Account account = getAccountById(depositRequest.accountNumber());
 
     transactionsUtils.isAccountOwner(ownerId, account.getOwner().getId());
 
-    account.setBalance(account.getBalance().add(depositRequest.getAmount()));
+    account.setBalance(account.getBalance().add(depositRequest.amount()));
     save(account);
     transactionRepository.save(
         transactionsUtils.buildTransaction(
             account,
             null,
-            depositRequest.getAmount(),
+            depositRequest.amount(),
             TransactionType.DEPOSIT,
             TransactionStatus.COMPLETED,
             "Deposit to account"
@@ -62,7 +62,7 @@ public class AccountServiceImpl implements AccountService {
     );
 
     return new SimpleMessageResponse(
-        String.format("Deposit of %s to account %s completed", depositRequest.getAmount(), depositRequest.getAccountNumber())
+        String.format("Deposit of %s to account %s completed", depositRequest.amount(), depositRequest.accountNumber())
     );
   }
 
@@ -79,15 +79,15 @@ public class AccountServiceImpl implements AccountService {
   @Override
   public SimpleMessageResponse create(Long ownerId, AccountCreationRequest creationRequest) {
 
-    AppUser owner = appUserService.getUserById(creationRequest.getOwnerId());
+    AppUser owner = appUserService.getUserById(creationRequest.ownerId());
 
-    transactionsUtils.isAccountOwner(ownerId, creationRequest.getOwnerId());
+    transactionsUtils.isAccountOwner(ownerId, creationRequest.ownerId());
 
-    if (AccountType.getAccountType(creationRequest.getType().toUpperCase()) == AccountType.UNKNOWN) {
+    if (AccountType.getAccountType(creationRequest.type().toUpperCase()) == AccountType.UNKNOWN) {
       throw new IncorrectAccountTypeException("The account type doesn't exist");
     }
 
-    Account account = new Account(AccountType.getAccountType(creationRequest.getType().toUpperCase()), owner);
+    Account account = new Account(AccountType.getAccountType(creationRequest.type().toUpperCase()), owner);
     save(account);
     return new SimpleMessageResponse("Account created successfully");
   }
